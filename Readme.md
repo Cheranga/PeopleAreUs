@@ -1,3 +1,4 @@
+[![Build status](https://dev.azure.com/cchatangala/PeopleAreUs/_apis/build/status/PROD%20-%20CI)](https://dev.azure.com/cchatangala/PeopleAreUs/_build/latest?definitionId=34)
 # Notes
 
 ## Important

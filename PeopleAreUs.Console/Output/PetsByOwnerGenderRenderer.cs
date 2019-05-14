@@ -5,9 +5,9 @@ using PeopleAreUs.Console.ViewModels;
 
 namespace PeopleAreUs.Console.Output
 {
-    public class PetsByOwnerGenderRenderer:IRenderer<PetsByOwnerGenderViewModel>
+    public class PetsByOwnerGenderRenderer : RendererBase<PetsByOwnerGenderViewModel>
     {
-        public async Task RenderAsync(PetsByOwnerGenderViewModel data)
+        public override async Task RenderAsync(PetsByOwnerGenderViewModel data)
         {
             if (data?.PetsMappedByOwnersGender == null || !data.PetsMappedByOwnersGender.Any())
             {
@@ -25,24 +25,6 @@ namespace PeopleAreUs.Console.Output
                 }
 
                 await System.Console.Out.WriteLineAsync();
-            }
-        }
-
-        private async Task PrintInStyleAsync(string value, ConsoleColor textColor)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                return;
-            }
-
-            try
-            {
-                System.Console.ForegroundColor = textColor;
-                await System.Console.Out.WriteAsync(value);
-            }
-            finally
-            {
-                System.Console.ResetColor();
             }
         }
     }

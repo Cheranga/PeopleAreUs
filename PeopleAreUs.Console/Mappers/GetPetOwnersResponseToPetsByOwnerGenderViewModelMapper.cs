@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using PeopleAreUs.Console.ViewModels;
 using PeopleAreUs.Core;
@@ -21,6 +20,7 @@ namespace PeopleAreUs.Console.Mappers
             {
                 return new PetsByOwnerGenderViewModel();
             }
+
             //
             // Group the collection by the owner's gender and select the pet names
             //

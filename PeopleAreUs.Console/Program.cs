@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using PeopleAreUs.Console.Requests;
 using PeopleAreUs.Domain.Models;
@@ -21,7 +20,6 @@ namespace PeopleAreUs.Console
             var serviceProvider = Bootstrapper.GetServiceProvider(new ServiceCollection());
             var manager = serviceProvider.GetRequiredService<IPeopleMediator>();
             await manager.ShowPetsAsync(new ShowPetsRequest(PetType.Cat, pet => pet.Name));
-
         }
     }
 }

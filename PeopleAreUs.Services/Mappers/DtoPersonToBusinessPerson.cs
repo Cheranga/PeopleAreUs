@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using PeopleAreUs.Core;
-using PeopleAreUs.DTO;
+using PeopleAreUs.Domain.Models;
+using Person = PeopleAreUs.DTO.Person;
+using Pet = PeopleAreUs.DTO.Pet;
 
 namespace PeopleAreUs.Services.Mappers
 {
@@ -32,14 +34,14 @@ namespace PeopleAreUs.Services.Mappers
             };
         }
 
-        private Domain.Models.Gender GetGender(string value)
+        private Gender GetGender(string value)
         {
-            if (Enum.TryParse(value, true, out Domain.Models.Gender gender))
+            if (Enum.TryParse(value, true, out Gender gender))
             {
                 return gender;
             }
 
-            return Domain.Models.Gender.None;
+            return Gender.None;
         }
     }
 }

@@ -22,23 +22,6 @@ namespace PeopleAreUs.Services.Tests
         }
 
         [Fact]
-        public void If_The_PetType_Is_Not_Supported_It_Must_Be_Returned_As_None()
-        {
-            //
-            // Arrange
-            //
-            var mapper = new DtoPetToBusinessPet();
-            //
-            // Act
-            //
-            var target = mapper.Map(new Pet{Name = "some name1", Type = "blah"});
-            //
-            // Assert
-            //
-            Assert.Equal(PetType.None, target.Type);
-        }
-
-        [Fact]
         public void If_The_Pet_Data_Are_Valid_Must_Return_A_Valid_Pet()
         {
             //
@@ -58,6 +41,23 @@ namespace PeopleAreUs.Services.Tests
             //
             Assert.Equal("some pet1", target.Name);
             Assert.Equal(PetType.Dog, target.Type);
+        }
+
+        [Fact]
+        public void If_The_PetType_Is_Not_Supported_It_Must_Be_Returned_As_None()
+        {
+            //
+            // Arrange
+            //
+            var mapper = new DtoPetToBusinessPet();
+            //
+            // Act
+            //
+            var target = mapper.Map(new Pet {Name = "some name1", Type = "blah"});
+            //
+            // Assert
+            //
+            Assert.Equal(PetType.None, target.Type);
         }
     }
 }

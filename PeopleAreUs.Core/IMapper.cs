@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PeopleAreUs.Core
+﻿namespace PeopleAreUs.Core
 {
     public interface IMapper<in TSource, out TTarget> where TSource : class where TTarget : class, new()
     {

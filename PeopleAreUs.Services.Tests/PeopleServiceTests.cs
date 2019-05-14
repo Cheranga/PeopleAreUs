@@ -46,7 +46,7 @@ namespace PeopleAreUs.Services.Tests
             var mockedApiClient = new Mock<IPeopleAreUsHttpClient>();
             mockedApiClient.Setup(x => x.GetPeopleAsync()).ReturnsAsync(OperationResult<List<Person>>.Success(new List<Person>
             {
-                new Person{Name = "some name", Age = 18, Gender = "blah", Pets = new List<Pet>()}
+                new Person {Name = "some name", Age = 18, Gender = "blah", Pets = new List<Pet>()}
             }));
 
             var mockedMapper = new Mock<IMapper<Person, Domain.Models.Person>>();
@@ -60,6 +60,41 @@ namespace PeopleAreUs.Services.Tests
             // Assert
             //
             Assert.False(operation.Status);
+        }
+
+
+        [Fact]
+        public async Task If_There_Are_No_Owners_For_The_Requested_PetType_Must_Return_Success_With_Empty_People_List()
+        {
+            //
+            // Arrange
+            //
+            var mockedClient = new Mock<IPeopleAreUsHttpClient>();
+            mockedClient.Setup(x => x.GetPeopleAsync()).ReturnsAsync(OperationResult<List<Person>>.Success(new List<Person>
+            {
+                new Person
+                {
+                    Name = "some name1", Age = 18, Gender = "Male", Pets = new List<Pet>
+                    {
+                        new Pet {Name = "some dog 1", Type = "Dog"},
+                        new Pet {Name = "some dog 2", Type = "Dog"}
+                    }
+                }
+            }));
+            var petMapper = new DtoPetToBusinessPet();
+            var personMapper = new DtoPersonToBusinessPerson(petMapper);
+            var specification = new PetTypeSpecification();
+            var service = new PeopleService(mockedClient.Object, specification, personMapper, Mock.Of<ILogger<PeopleService>>());
+            //
+            // Act
+            //
+            var operation = await service.GetPetOwnersAsync(new GetPetOwnersRequest(PetType.Cat));
+            //
+            // Assert
+            //
+            Assert.True(operation.Status);
+            Assert.NotNull(operation.Data);
+            Assert.Empty(operation.Data.People);
         }
 
         [Fact]
@@ -83,41 +118,6 @@ namespace PeopleAreUs.Services.Tests
             Assert.Empty(operation.Data.People);
         }
 
-
-        [Fact]
-        public async Task If_There_Are_No_Owners_For_The_Requested_PetType_Must_Return_Success_With_Empty_People_List()
-        {
-            //
-            // Arrange
-            //
-            var mockedClient = new Mock<IPeopleAreUsHttpClient>();
-            mockedClient.Setup(x => x.GetPeopleAsync()).ReturnsAsync(OperationResult<List<Person>>.Success(new List<Person>
-            {
-                new Person
-                {
-                    Name = "some name1", Age = 18, Gender = "Male", Pets = new List<Pet>
-                    {
-                        new Pet{Name = "some dog 1", Type = "Dog"},
-                        new Pet{Name = "some dog 2", Type = "Dog"},
-                    }
-                }
-            }));
-            var petMapper = new DtoPetToBusinessPet();
-            var personMapper = new DtoPersonToBusinessPerson(petMapper);
-            var specification = new PetTypeSpecification();
-            var service = new PeopleService(mockedClient.Object, specification, personMapper, Mock.Of<ILogger<PeopleService>>());
-            //
-            // Act
-            //
-            var operation = await service.GetPetOwnersAsync(new GetPetOwnersRequest(PetType.Cat));
-            //
-            // Assert
-            //
-            Assert.True(operation.Status);
-            Assert.NotNull(operation.Data);
-            Assert.Empty(operation.Data.People);
-        }
-
         [Fact]
         public async Task If_There_Are_Owners_For_The_Requested_PetType_Must_Return_Success_With_Those_People()
         {
@@ -131,8 +131,8 @@ namespace PeopleAreUs.Services.Tests
                 {
                     Name = "some name1", Age = 18, Gender = "Male", Pets = new List<Pet>
                     {
-                        new Pet{Name = "some dog 1", Type = "Dog"},
-                        new Pet{Name = "some dog 2", Type = "Dog"},
+                        new Pet {Name = "some dog 1", Type = "Dog"},
+                        new Pet {Name = "some dog 2", Type = "Dog"}
                     }
                 }
             }));
@@ -149,8 +149,7 @@ namespace PeopleAreUs.Services.Tests
             //
             Assert.True(operation.Status);
             Assert.NotNull(operation.Data);
-            Assert.True(operation.Data.People.All(x=>x.Pets.All(y=>y.Type == PetType.Dog)));
+            Assert.True(operation.Data.People.All(x => x.Pets.All(y => y.Type == PetType.Dog)));
         }
-
     }
 }

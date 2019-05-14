@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using PeopleAreUs.Core;

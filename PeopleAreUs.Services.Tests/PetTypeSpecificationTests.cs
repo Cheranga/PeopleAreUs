@@ -50,7 +50,7 @@ namespace PeopleAreUs.Services.Tests
             //
             // Act
             //
-            var status = specification.IsSatisfiedBy(new Pet { Type = PetType.Dog }, PetType.Dog);
+            var status = specification.IsSatisfiedBy(new Pet {Type = PetType.Dog}, PetType.Dog);
             //
             // Assert
             //

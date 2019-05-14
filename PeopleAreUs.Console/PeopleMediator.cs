@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using PeopleAreUs.Console.Output;
 using PeopleAreUs.Console.Requests;
 using PeopleAreUs.Console.ViewModels;
 using PeopleAreUs.Core;
-using PeopleAreUs.Domain.Models;
 using PeopleAreUs.Services;
 using PeopleAreUs.Services.Requests;
 using PeopleAreUs.Services.Responses;
@@ -16,10 +12,10 @@ namespace PeopleAreUs.Console
 {
     public class PeopleMediator : IPeopleMediator
     {
-        private readonly IPeopleService _peopleService;
-        private readonly IMapper<GetPetOwnersResponse, PetsByOwnerGenderViewModel> _mapper;
-        private readonly IRenderer<PetsByOwnerGenderViewModel> _renderer;
         private readonly ILogger<PeopleMediator> _logger;
+        private readonly IMapper<GetPetOwnersResponse, PetsByOwnerGenderViewModel> _mapper;
+        private readonly IPeopleService _peopleService;
+        private readonly IRenderer<PetsByOwnerGenderViewModel> _renderer;
 
         public PeopleMediator(IPeopleService peopleService, IMapper<GetPetOwnersResponse, PetsByOwnerGenderViewModel> mapper,
             IRenderer<PetsByOwnerGenderViewModel> renderer, ILogger<PeopleMediator> logger)
@@ -51,6 +47,5 @@ namespace PeopleAreUs.Console
 
             await _renderer.RenderAsync(sortedViewModel);
         }
-
     }
 }

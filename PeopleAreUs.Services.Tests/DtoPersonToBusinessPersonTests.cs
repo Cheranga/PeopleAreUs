@@ -14,15 +14,6 @@ namespace PeopleAreUs.Services.Tests
     public class DtoPersonToBusinessPersonTests
     {
         [Fact]
-        public void If_PetMapper_Is_Null_Must_Throw_Error()
-        {
-            //
-            // Arrange, act and assert
-            //
-            Assert.Throws<ArgumentNullException>(() => new DtoPersonToBusinessPerson(null));
-        }
-
-        [Fact]
         public void If_DTO_Person_Is_Null_Must_Throw_Error()
         {
             //
@@ -33,6 +24,44 @@ namespace PeopleAreUs.Services.Tests
                 var mapper = new DtoPersonToBusinessPerson(Mock.Of<IMapper<Pet, Domain.Models.Pet>>());
                 var target = mapper.Map(null);
             });
+        }
+
+        [Fact]
+        public void If_PetMapper_Is_Null_Must_Throw_Error()
+        {
+            //
+            // Arrange, act and assert
+            //
+            Assert.Throws<ArgumentNullException>(() => new DtoPersonToBusinessPerson(null));
+        }
+
+        [Fact]
+        public void If_The_Owner_Data_Are_Valid_Must_Return_A_Valid_Person()
+        {
+            //
+            // Arrange
+            //
+            var mapper = new DtoPersonToBusinessPerson(new DtoPetToBusinessPet());
+            //
+            // Act
+            //
+            var target = mapper.Map(new Person
+            {
+                Name = "some name", Gender = "Female", Age = 20, Pets = new[]
+                {
+                    new Pet {Name = "some pet1", Type = "Cat"},
+                    new Pet {Name = "some pet2", Type = "Dog"}
+                }
+            });
+            //
+            // Assert
+            //
+            Assert.Equal("some name", target.Name);
+            Assert.Equal(20, target.Age);
+            Assert.Equal(Gender.Female, target.Gender);
+
+            Assert.Equal(1, target.Pets.Count(x => x.Type == PetType.Cat));
+            Assert.Equal(1, target.Pets.Count(x => x.Type == PetType.Dog));
         }
 
         [Fact]
@@ -69,36 +98,9 @@ namespace PeopleAreUs.Services.Tests
                 {
                     Name = "some name",
                     Gender = "Male",
-                    Pets = new List<Pet>(new Pet[] { null, null })
+                    Pets = new List<Pet>(new Pet[] {null, null})
                 });
             });
-        }
-
-        [Fact]
-        public void If_The_Owner_Data_Are_Valid_Must_Return_A_Valid_Person()
-        {
-            //
-            // Arrange
-            //
-            var mapper = new DtoPersonToBusinessPerson(new DtoPetToBusinessPet());
-            //
-            // Act
-            //
-            var target = mapper.Map(new Person { Name = "some name", Gender = "Female", Age = 20, Pets =  new Pet[]
-            {
-                new Pet{Name = "some pet1", Type = "Cat"},
-                new Pet{Name = "some pet2", Type = "Dog"}
-            }
-            });
-            //
-            // Assert
-            //
-            Assert.Equal("some name", target.Name);
-            Assert.Equal(20, target.Age);
-            Assert.Equal(Gender.Female,target.Gender);
-
-            Assert.Equal(1, target.Pets.Count(x=>x.Type == PetType.Cat));
-            Assert.Equal(1, target.Pets.Count(x => x.Type == PetType.Dog));
         }
     }
 }

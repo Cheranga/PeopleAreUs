@@ -19,30 +19,36 @@ namespace PeopleAreUs.Console
                 throw new ArgumentNullException(nameof(services));
             }
 
-            //
-            // Enable logging and configure console logging
-            //
-            services.AddLogging(builder => builder.AddConsole());
-            //
-            // Managers
-            //
-            services.AddSingleton<IPeopleMediator, PeopleMediator>();
-            //
-            // Mappers
-            //
-            services.AddSingleton<IMapper<GetPetOwnersResponse, PetsByOwnerGenderViewModel>, GetPetOwnersResponseToPetsByOwnerGenderViewModelMapper>();
-            //
-            // Renderers
-            //
-            services.AddSingleton<IRenderer<PetsByOwnerGenderViewModel>, PetsByOwnerGenderRenderer>();
-            //
-            // Register services
-            //
+            RegisterLogging(services);
+            RegisterMediators(services);
+            RegisterMappers(services);
+            RegisterRenderers(services);
+            
             services.UseServices();
 
             var serviceProvider = services.BuildServiceProvider();
 
             return serviceProvider;
+        }
+
+        private static void RegisterLogging(IServiceCollection services)
+        {
+            services.AddLogging(builder => builder.AddConsole());
+        }
+
+        private static void RegisterMediators(IServiceCollection services)
+        {
+            services.AddSingleton<IPeopleMediator, PeopleMediator>();
+        }
+
+        private static void RegisterMappers(IServiceCollection services)
+        {
+            services.AddSingleton<IMapper<GetPetOwnersResponse, PetsByOwnerGenderViewModel>, GetPetOwnersResponseToPetsByOwnerGenderViewModelMapper>();
+        }
+
+        private static void RegisterRenderers(IServiceCollection services)
+        {
+            services.AddSingleton<IRenderer<PetsByOwnerGenderViewModel>, PetsByOwnerGenderRenderer>();
         }
     }
 }

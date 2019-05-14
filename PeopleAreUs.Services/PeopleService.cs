@@ -15,9 +15,9 @@ namespace PeopleAreUs.Services
     public class PeopleService : IPeopleService
     {
         private readonly IPeopleAreUsHttpClient _client;
-        private readonly IPetTypeSpecification _petTypeSpecification;
-        private readonly IMapper<Person, Domain.Models.Person> _mapper;
         private readonly ILogger<PeopleService> _logger;
+        private readonly IMapper<Person, Domain.Models.Person> _mapper;
+        private readonly IPetTypeSpecification _petTypeSpecification;
 
         public PeopleService(IPeopleAreUsHttpClient client, IPetTypeSpecification petTypeSpecification, IMapper<Person, Domain.Models.Person> mapper,
             ILogger<PeopleService> logger)
@@ -39,7 +39,7 @@ namespace PeopleAreUs.Services
                     return OperationResult<GetPetOwnersResponse>.Failure("Cannot retrieve people");
                 }
 
-                var people = getPeopleOperation.Data.Select(x=>_mapper.Map(x)).ToList();
+                var people = getPeopleOperation.Data.Select(x => _mapper.Map(x)).ToList();
 
                 var selectedPeople = new List<Domain.Models.Person>();
 
@@ -51,6 +51,9 @@ namespace PeopleAreUs.Services
                         continue;
                     }
 
+                    //
+                    // Use specification pattern to filter out the results
+                    //
                     var selectedPets = person.Pets.Where(x => _petTypeSpecification.IsSatisfiedBy(x, request.Type)).ToList();
                     if (!selectedPets.Any())
                     {

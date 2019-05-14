@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+
 //[assembly: InternalsVisibleTo("PeopleAreUs.Infrastructure.Tests")]
 [assembly: InternalsVisibleTo("PeopleAreUs.Infrastructure.Tests")]
-
 
 
 namespace PeopleAreUs.Infrastructure
@@ -21,7 +18,7 @@ namespace PeopleAreUs.Infrastructure
             }
 
             services.AddSingleton(config);
-            
+
             services.AddHttpClient<IPeopleAreUsHttpClient, PeopleAreUsHttpClient>();
             services.AddSingleton<IPeopleDataConverter, JsonPeopleDataConverter>();
         }

@@ -1,5 +1,11 @@
 # Notes
 
+## Important
+
+* The solution is built using VS2017.
+* The solution is implemented in `.NET Core 2.1`.
+* __Please make sure that you make the `PeopleAreUs.Console` project as the `start up` project if you want to run/debug.__
+
 This contains the documentation for the project.
 
 * [Project Structure](https://github.com/Cheranga/PeopleAreUs#project-structure)
